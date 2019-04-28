@@ -1,0 +1,122 @@
+fileFormatVersion: 2
+guid: 4f8335c8ed8652a4eb5c111d3aa06884
+timeCreated: 1483706186
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Bayonet_Socket
+    100002: Bipod_socket
+    100004: Bone001
+    100006: Bone003
+    100008: Bone005
+    100010: Bone008
+    100012: LaserSight_socket
+    100014: LightSight_socket
+    100016: Point001
+    100018: Point002
+    100020: Point003
+    100022: Point_SCOPE
+    100024: //RootNode
+    100026: Silence_socket
+    100028: SR_PSG_1_Barrel_000_L0
+    100030: SR_PSG_1_Magazine_000_L0
+    100032: SR_PSG_1_Scope_000_L0
+    100034: SR_PSG_1_Stock_000_L0
+    100036: SR_PSG_1_Upper_000_L0
+    100038: World_Dummy
+    400000: Bayonet_Socket
+    400002: Bipod_socket
+    400004: Bone001
+    400006: Bone003
+    400008: Bone005
+    400010: Bone008
+    400012: LaserSight_socket
+    400014: LightSight_socket
+    400016: Point001
+    400018: Point002
+    400020: Point003
+    400022: Point_SCOPE
+    400024: //RootNode
+    400026: Silence_socket
+    400028: SR_PSG_1_Barrel_000_L0
+    400030: SR_PSG_1_Magazine_000_L0
+    400032: SR_PSG_1_Scope_000_L0
+    400034: SR_PSG_1_Stock_000_L0
+    400036: SR_PSG_1_Upper_000_L0
+    400038: World_Dummy
+    4300000: SR_PSG_1_Barrel_000_L0
+    4300002: SR_PSG_1_Magazine_000_L0
+    4300004: SR_PSG_1_Scope_000_L0
+    4300006: SR_PSG_1_Stock_000_L0
+    4300008: SR_PSG_1_Upper_000_L0
+    9500000: //RootNode
+    13700000: SR_PSG_1_Barrel_000_L0
+    13700002: SR_PSG_1_Magazine_000_L0
+    13700004: SR_PSG_1_Scope_000_L0
+    13700006: SR_PSG_1_Stock_000_L0
+    13700008: SR_PSG_1_Upper_000_L0
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
