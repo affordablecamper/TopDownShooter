@@ -45,7 +45,8 @@ public class EnterVehicle : MonoBehaviour
                 }
 
             }
-            else if(Input.GetKeyDown(KeyCode.Space)){
+            if(Input.GetKeyDown(KeyCode.Space)){
+
                 followTarget.enabled = false;
                 _collider.enabled = true;
                 vehicleCam.SetActive(false);

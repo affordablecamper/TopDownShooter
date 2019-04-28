@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
 {
 
     public float moveSpeed = 5;
-
+    public GameObject mp5;
+    public Behaviour shootingScript;
     public Camera viewCamera;
     PlayerController controller;
     private Vector3 relativePoint;
@@ -16,9 +17,11 @@ public class Player : MonoBehaviour
     Vector3 camForward;
     Vector3 move;
     Vector3 moveInput;
-   
+    public Transform shootPos;
+    public Transform fwd;
     float forwardAmount;
     float turnAmount;
+    public bool inTrig;
     void Start()
     {
         controller = GetComponent<PlayerController>();
@@ -27,7 +30,17 @@ public class Player : MonoBehaviour
 
         //viewCamera = Camera.main;
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.tag == "Weapon")
+            inTrig = true;
+    }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Weapon")
+            inTrig = false;
+    }
     void Update()
     {
 
@@ -64,11 +77,22 @@ public class Player : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
+            if (hit.collider.tag == "Weapon") {
+                
+                if (Input.GetButtonDown("Fire2")&&inTrig)
+                {
+                    hit.collider.gameObject.SetActive(false);
+                    shootingScript.enabled = true;
+                    mp5.SetActive(true);
+
+                }
+            }
             
             Debug.DrawLine(ray.origin, hit.point, Color.red);
             //Debug.DrawRay(ray.origin,ray.direction * 100,Color.red);
             controller.LookAt(hit.point);
-
+            shootPos.LookAt(hit.point);
+            //fwd.LookAt(hit.point);
         }
         
 
