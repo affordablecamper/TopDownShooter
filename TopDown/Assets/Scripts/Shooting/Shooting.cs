@@ -41,6 +41,7 @@ public class Shooting : MonoBehaviour
     private float fireCountdown = 0f;
     private float muzzleFlashTimerStart;
     public float muzzleflashtime = 0.1f;
+    public int damage = 1;
     [Header("GameObjects")]
     [Space]
     public GameObject muzzleFlashObject; //muzzle flash
@@ -152,15 +153,6 @@ public class Shooting : MonoBehaviour
 
 
 
-
-
-
-
-       
-                
-
-
-
             if (Input.GetButton("Fire1") && magEmpty == false)
             {
                 GameCamera.ToggleShake(Magnitude);
@@ -178,8 +170,10 @@ public class Shooting : MonoBehaviour
                 
                     if (hitInfo.collider.tag == "Enemy") {
 
-                    //do damage;
-                    }
+                    EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
+                    enem.takeDamage(damage);
+
+                }
                 }
             }
 
