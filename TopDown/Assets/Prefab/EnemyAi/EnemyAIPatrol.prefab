@@ -7201,7 +7201,6 @@ GameObject:
   - component: {fileID: 7655995661403326606}
   - component: {fileID: 7655995661403326607}
   - component: {fileID: 7655995661403326604}
-  - component: {fileID: 7655995661403326601}
   - component: {fileID: 7655995661403326600}
   - component: {fileID: 7655995661403326603}
   m_Layer: 0
@@ -7263,49 +7262,6 @@ NavMeshAgent:
   m_BaseOffset: 0.97
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7655995661403326601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7655995661403326605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31d3b06cc694c304eac99be0748e19ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootPos: {fileID: 7655995661813960478}
-  muzzleFlash: {fileID: 7655995662258698902}
-  findPlayer: 0
-  muzzleFlashEnable: 0
-  radius: 10
-  fireRate: 10
-  muzzleflashtime: 0.1
-  minshootdistance: 9
-  Audio: {fileID: 0}
-  fire: {fileID: 8300000, guid: c761bfb46d5aa874ca8a36dd7bef1687, type: 3}
-  lookingTimer: 5
-  stuckTimer: 7.5
-  Damage: 1
-  target: {fileID: 0}
-  enemies: []
-  enemyTag: Player
-  points:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  destPoint: 0
-  anim: {fileID: 1556693201875438479}
-  pointRoundOff: 0.25
-  waitTime: 2
-  isRoaming: 0
-  isChasing: 0
-  detectRadius: 50
-  canShoot: 1
-  _Player: {fileID: 0}
-  playerisDead: 0
 --- !u!82 &7655995661403326600
 AudioSource:
   m_ObjectHideFlags: 0

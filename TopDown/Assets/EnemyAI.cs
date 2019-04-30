@@ -73,10 +73,12 @@ public class EnemyAI : MonoBehaviour
     private float waitTimeStart;
     public bool isRoaming;
     public bool isChasing;
+    public float targetRadius;
     public float detectRadius;
     public bool canShoot;
     public PlayerHealth _Player;
     public bool playerisDead;
+    public float viewDistance;
     void Start()
     {
         isRoaming = true;
@@ -103,7 +105,7 @@ public class EnemyAI : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy < shortestDistance)
+           if (distanceToEnemy < shortestDistance)
             {
 
                 shortestDistance = distanceToEnemy;
@@ -112,7 +114,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        if (nearestEnemy != null && shortestDistance <= detectRadius)
+        if (nearestEnemy != null && shortestDistance <= targetRadius)
         {
 
             target = nearestEnemy.transform;
@@ -120,9 +122,9 @@ public class EnemyAI : MonoBehaviour
         }
 
 
-        if (shortestDistance >= detectRadius)
+        if (shortestDistance >= targetRadius)
         {
-
+       
             target = null;
 
         }
@@ -210,13 +212,15 @@ public class EnemyAI : MonoBehaviour
 
 
         RaycastHit hitInfo;
-        Debug.DrawRay(transform.position, shootPos.transform.forward * minshootdistance, Color.red);
+        
         shootPos.LookAt(target);
-        if (Physics.Raycast(shootPos.position, shootPos.transform.forward, out hitInfo, minshootdistance))
+
+        if (Physics.SphereCast(transform.position, detectRadius,transform.forward, out hitInfo, viewDistance))
         {
             if (hitInfo.collider.tag == "Player")
             {
 
+                transform.LookAt(target);
                 Debug.Log("ai can hit target");
                 isRoaming = false;
                 isChasing = true;
@@ -243,8 +247,7 @@ public class EnemyAI : MonoBehaviour
 
 
 
-        if (isChasing)
-        {
+        
             Vector3 direction = (target.transform.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
@@ -269,15 +272,16 @@ public class EnemyAI : MonoBehaviour
                 stuckTimer = stuckTimerStart;
             }
 
-            if (_distance <= radius)
-            {
+            if (isChasing)
+                if (_distance <= radius)
+                {
 
-                //CmdOnMove();
-                agent.SetDestination(target.position);
-                anim.SetBool("isChasing", true);
-                agent.isStopped = false;
+                    //CmdOnMove();
+                    agent.SetDestination(target.position);
+                    anim.SetBool("isChasing", true);
+                    agent.isStopped = false;
 
-            }
+                }
 
 
             if (_distance >= radius) {
@@ -291,6 +295,7 @@ public class EnemyAI : MonoBehaviour
                     agent.isStopped = false;
                     GotoNextPoint();
                     isRoaming = true;
+                    isChasing = false;
                 }
 
 
@@ -304,7 +309,7 @@ public class EnemyAI : MonoBehaviour
 
 
 
-
+            if(isChasing)
             if (_distance <= agent.stoppingDistance + minshootdistance)
             {
                 
@@ -322,7 +327,7 @@ public class EnemyAI : MonoBehaviour
             }
 
 
-        }
+        
 
         if (isRoaming) {
             //anim.SetBool("isRoaming", true);
@@ -381,7 +386,18 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, minshootdistance);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectRadius);
+        Gizmos.DrawWireSphere(transform.position, targetRadius);
+        
     }
+
+    //private void OnDrawGizmos()
+    //{
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawSphere(transform.position, detectRadius);
+        //if (isChasing) {
+            //Gizmos.color = Color.red;
+        //}
+        
+    //}
 
 }
