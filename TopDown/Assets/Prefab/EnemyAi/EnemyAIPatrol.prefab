@@ -7203,6 +7203,7 @@ GameObject:
   - component: {fileID: 7655995661403326604}
   - component: {fileID: 7655995661403326600}
   - component: {fileID: 7655995661403326603}
+  - component: {fileID: 1856598726}
   m_Layer: 0
   m_Name: EnemyAIPatrol
   m_TagString: Enemy
@@ -7374,6 +7375,45 @@ MonoBehaviour:
   isDead: 0
   ragdoll: {fileID: 1752996581864762, guid: ab037c0f7c180b3479e1d058bd6d5218, type: 3}
   enem: {fileID: 0}
+--- !u!114 &1856598726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7655995661403326605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf512dd9227ec14ead779e6c683922d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 5
+  anim: {fileID: 1556693201875438479}
+  isChasing: 0
+  isRoaming: 0
+  foundTarget: 0
+  points:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  agent: {fileID: 7655995661403326604}
+  destPoint: 0
+  enemies: []
+  enemyTag: Player
+  targetRadius: 11
+  AILookRadius: 10
+  closestTarget: {fileID: 0}
+  visibleTargets: []
+  viewRadius: 8.08
+  viewAngle: 163
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  pointRoundOff: 0
 --- !u!1 &7655995661437199770
 GameObject:
   m_ObjectHideFlags: 0
