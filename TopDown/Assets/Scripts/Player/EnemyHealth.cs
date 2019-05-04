@@ -9,7 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public float health;
     public bool isDead;
     public GameObject ragdoll;
-    public EnemyAI enem;
+    
     private void Start()
     {
 

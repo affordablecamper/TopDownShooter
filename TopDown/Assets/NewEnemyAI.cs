@@ -109,16 +109,22 @@ public class NewEnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (isRoaming) {
+            isChasing = false;
+            
 
 
-        //accuracy of bot
-        if (closestTarget != null) {
-            Vector3 dir = closestTarget.position - shootPos.position;
-            Quaternion lookRotatation = Quaternion.LookRotation(dir);
-            Vector3 rotation = Quaternion.Lerp(shootPos.rotation, lookRotatation, Time.deltaTime * botAimSpeed).eulerAngles;
-            shootPos.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
         }
+
+
+        if (isChasing) {
+            isRoaming = false;
+
+        }
+
+
+       
 
 
 
@@ -180,19 +186,28 @@ public class NewEnemyAI : MonoBehaviour
         }
 
 
-       
-        if (closestTarget != null) {
-            direction = (closestTarget.transform.position - transform.position).normalized;
-            
-            _distance = Vector3.Distance(closestTarget.transform.position, transform.position);
-            if (_distance <= AILookRadius)
+         
+            if (closestTarget != null)
             {
+                direction = (closestTarget.transform.position - transform.position).normalized;
 
-                StartCoroutine("FindTargetsWithDelay", .25f);
+                _distance = Vector3.Distance(closestTarget.transform.position, transform.position);
+                if (_distance <= AILookRadius)
+                {
+
+                    StartCoroutine("FindTargetsWithDelay", .125f);
+
+                }
+                else {
+
+                    canShoot = false;
+                    isRoaming = true;
+                }
 
             }
 
-        }
+        
+        
        
     }
 
@@ -209,7 +224,7 @@ public class NewEnemyAI : MonoBehaviour
     {
         visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
-
+        RaycastHit hitInfo;
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             //Transform target = targetsInViewRadius[i].transform;
@@ -220,58 +235,50 @@ public class NewEnemyAI : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
-                   
-                    agent.speed = 4.5f;
-                    visibleTargets.Add(closestTarget);
-                    OnInspect();
-                    isRoaming = false;
-                    isChasing = true;
-                    anim.SetBool("isChasing", true);
-                    anim.SetBool("isRoaming", false);
+                    shootPos.LookAt(closestTarget);
+                    if (Physics.Raycast(shootPos.transform.position, shootPos.transform.forward, out hitInfo))
+                    {
+
+                        visibleTargets.Add(hitInfo.transform);
+                        isRoaming = false;
+
+                        canShoot = true;
+                        agent.isStopped = true;
+                        anim.SetBool("isRoaming", false);
+
+
+                    }
+                    else {
+                        visibleTargets.Remove(hitInfo.transform);
+                        canShoot = false;
+                        isRoaming = true;
+                        anim.SetBool("isRoaming", false);
+                    }
+
+                        
                 }
-                else
-                {
-                    //agent.speed = 3.5f;
-                    //waitTime = 0;
-                    //isRoaming = true;
-                    //isChasing = false;
-                    //anim.SetBool("isChasing", false);
-                    //anim.SetBool("isRoaming", true);
-                    
-                }
+                
             }
             else {
 
-                agent.speed = 3.5f;
-                waitTime = 0;
+                
+                canShoot = false;
                 isRoaming = true;
-                isChasing = false;
-                anim.SetBool("isChasing", false);
-                anim.SetBool("isRoaming", true);
+               
             }
         }
     }
 
-    private void OnInspect()
+    private void FixedUpdate()
     {
-        if (isChasing)
-        {
-            agent.SetDestination(closestTarget.position);
-            //if (_distance <= agent.stoppingDistance + shootDistance)
-            //{
-                    //agent.isStopped = true;
-                    //canShoot = true;
-            //}
-            
+        if (canShoot) {
 
+            Vector3 dir = closestTarget.position - transform.position;
+            Quaternion lookRotatation = Quaternion.LookRotation(dir);
+            Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotatation, Time.deltaTime * botAimSpeed).eulerAngles;
+            transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
+        }
         
-        }
-        else {
-            //isRoaming = true;
-            //isChasing = false;
-            //canShoot = false;
-        }
-           
     }
 
     private void OnShoot()
@@ -280,15 +287,16 @@ public class NewEnemyAI : MonoBehaviour
         if (canShoot == true)
         {
             //shootPos.LookAt(closestTarget);
-            Vector3 fwd = shootPos.transform.TransformDirection(Vector3.forward);
-            Debug.DrawRay(shootPos.transform.position, fwd * 50, Color.red);
+            
+            
 
+            
             RaycastHit hitInfo;
             muzzleFlashEnable = true;
             Audio.PlayOneShot(fire);
 
 
-            if (Physics.Raycast(shootPos.transform.position, shootPos.transform.forward, out hitInfo, 1000000))
+            if (Physics.Raycast(transform.position, transform.forward, out hitInfo, 1000000))
             {
                 if (hitInfo.collider.tag == enemyTag)
                 {
@@ -316,23 +324,23 @@ public class NewEnemyAI : MonoBehaviour
     void GotoNextPoint()
     {
 
-
+        agent.isStopped = false;
         if (agent.remainingDistance <= 0)
         {
 
             waitTime -= Time.deltaTime;
             anim.SetBool("isRoaming", false);
-            anim.SetBool("isChasing", false);
+            
         }
         else {
             anim.SetBool("isRoaming", true);
-            anim.SetBool("isChasing", false);
+            
 
         }
 
 
 
-        isChasing = false;
+        
         isRoaming = true;
         if (waitTime <= 0)
         {

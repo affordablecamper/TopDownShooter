@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject GFX;
     private GameObject text;
     public Behaviour[] toDisable;
+    public CapsuleCollider collider;
     private void Start()
     {
        
@@ -46,10 +47,12 @@ public class PlayerHealth : MonoBehaviour
        GameObject rg = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
        Destroy(rg, 5f);
        GFX.SetActive(false);
-       this.enabled = false;
+       collider.enabled = false;
         foreach (Behaviour b in toDisable)
         {
             b.enabled = false;
         }
+        this.enabled = false;
+       
     }
 }

@@ -15,20 +15,27 @@ public class GameCamera : MonoBehaviour {
 		currentTrackedObject = trackedObject;
 
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            currentTrackedObject = trackedObjectZoom;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            currentTrackedObject = trackedObject;
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate () {
 	//	offset = offsetObject.position - trackedObject.position;
 		targetCamera.position = Vector3.Lerp (targetCamera.position, currentTrackedObject.position, 0.05f)+offset;
 		shakeTimer.UpdateTimer ();
 		if (shakeTimer.IsActive())
 			UpdateShake ();
-		if (Input.GetKeyDown (KeyCode.LeftShift)) {
-			currentTrackedObject=trackedObjectZoom;
-		}
-		if (Input.GetKeyUp (KeyCode.LeftShift)) {
-			currentTrackedObject=trackedObject;
-		}
+		
 	}
 	float shakeDelay=0.03f,lastShakeTime=float.MinValue;
 	void UpdateShake(){

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1168901761806711976}
   - component: {fileID: 8545026085829165448}
   - component: {fileID: 1885934352518791523}
+  - component: {fileID: 1344009005175765035}
   m_Layer: 11
   m_Name: MP5
   m_TagString: Weapon
@@ -139,3 +140,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.32882002, y: 3.69, z: 2.58}
   m_Center: {x: -0.028410181, y: -0.2665907, z: 0.1683585}
+--- !u!114 &1344009005175765035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738268485684700089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e70730c0a968d4e8ba792e45ed028e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
