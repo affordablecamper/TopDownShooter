@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-
+using UnityEngine.UI;
 [RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
 {
 
     public float moveSpeed = 5;
-    public GameObject mp5;
-    public Behaviour shootingScript;
+    public GameObject[] guns;
+    
     public Camera viewCamera;
     PlayerController controller;
     private Vector3 relativePoint;
@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
     float forwardAmount;
     float turnAmount;
     public bool inTrig;
+    public LayerMask gunMask;
+    public AudioSource source;
+    public AudioClip pickUp;
+    public Text text;
     void Start()
     {
         controller = GetComponent<PlayerController>();
@@ -30,17 +34,7 @@ public class Player : MonoBehaviour
 
         //viewCamera = Camera.main;
     }
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.tag == "Weapon")
-            inTrig = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Weapon")
-            inTrig = false;
-    }
+   
     void Update()
     {
 
@@ -75,18 +69,75 @@ public class Player : MonoBehaviour
         
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit,gunMask))
         {
-            if (hit.collider.tag == "Weapon") {
-                
-                if (Input.GetButtonDown("Fire2")&&inTrig)
-                {
-                    hit.collider.gameObject.SetActive(false);
-                    shootingScript.enabled = true;
-                    mp5.SetActive(true);
 
+                
+                if (Input.GetButtonDown("Fire2"))
+                {
+
+                
+
+                if (hit.collider.tag == "AK47") {
+                    WeaponData data = hit.collider.GetComponent<WeaponData>();
+                    Gun weapon = guns[0].GetComponent<Gun>();
+                    weapon.magAmmo = data.magAmmo;
+                    Destroy(hit.collider.gameObject);
+                    guns[0].SetActive(true);
+                    source.PlayOneShot(pickUp);
+                    text.enabled = true;
                 }
+
+                    
+
+                if (hit.collider.tag == "MP5") {
+                    WeaponData data = hit.collider.GetComponent<WeaponData>();
+                    Gun weapon = guns[1].GetComponent<Gun>();
+                    weapon.magAmmo = data.magAmmo;
+                    Destroy(hit.collider.gameObject);
+                    guns[1].SetActive(true);
+                    source.PlayOneShot(pickUp);
+                    text.enabled = true;
+                }
+
+                    
+
+
+                if (hit.collider.tag == "MP5SD") {
+                    WeaponData data = hit.collider.GetComponent<WeaponData>();
+                    Gun weapon = guns[2].GetComponent<Gun>();
+                    weapon.magAmmo = data.magAmmo;
+                    Destroy(hit.collider.gameObject);
+                    guns[2].SetActive(true);
+                    source.PlayOneShot(pickUp);
+                    text.enabled = true;
+                }
+
+
+                if (hit.collider.tag == "MP40") {
+                    WeaponData data = hit.collider.GetComponent<WeaponData>();
+                    Gun weapon = guns[3].GetComponent<Gun>();
+                    weapon.magAmmo = data.magAmmo;
+                    source.PlayOneShot(pickUp);
+                    Destroy(hit.collider.gameObject);
+                        guns[3].SetActive(true);
+                    text.enabled = true;
+                }
+
             }
+
+              
+
+        }
+
+            
+
+                
+
+        
+
+    
+    
             
             Debug.DrawLine(ray.origin, hit.point, Color.red);
             //Debug.DrawRay(ray.origin,ray.direction * 100,Color.red);
@@ -96,7 +147,7 @@ public class Player : MonoBehaviour
         }
         
 
-    }
+    
 
     private void OnMove(Vector3 move)
     {

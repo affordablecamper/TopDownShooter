@@ -1,0 +1,245 @@
+fileFormatVersion: 2
+guid: 807a5c7f926cf6d43a07bcb3a6175b51
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Backsight_low
+    100002: Bolt_low
+    100004: Bolt_ready_low
+    100006: Button_upper_low
+    100008: Flashhider_low
+    100010: g Default
+    100012: Gas_tube_protector_low
+    100014: handguard_low
+    100016: Handle_bottom_low
+    100018: Handle_low
+    100020: Magazine_low
+    100022: Magwell_low
+    100024: Main_barrel_low
+    100026: Main_body_low
+    100028: //RootNode
+    100030: Piston_low
+    100032: Protective_cup_low
+    100034: Rod_low
+    100036: Selector_low
+    100038: Shells_low
+    100040: Spring2_low
+    100042: Spring_low
+    100044: Spring_stopper_low
+    100046: Stock_low
+    100048: trigger_group_low
+    100050: Trigger_guard_low
+    100052: Upper_low
+    400000: Backsight_low
+    400002: Bolt_low
+    400004: Bolt_ready_low
+    400006: Button_upper_low
+    400008: Flashhider_low
+    400010: g Default
+    400012: Gas_tube_protector_low
+    400014: handguard_low
+    400016: Handle_bottom_low
+    400018: Handle_low
+    400020: Magazine_low
+    400022: Magwell_low
+    400024: Main_barrel_low
+    400026: Main_body_low
+    400028: //RootNode
+    400030: Piston_low
+    400032: Protective_cup_low
+    400034: Rod_low
+    400036: Selector_low
+    400038: Shells_low
+    400040: Spring2_low
+    400042: Spring_low
+    400044: Spring_stopper_low
+    400046: Stock_low
+    400048: trigger_group_low
+    400050: Trigger_guard_low
+    400052: Upper_low
+    2100000: Magwell
+    2100002: Backsight
+    2100004: Flashhider
+    2100006: Handle
+    2100008: Piston
+    2100010: Trigger_goup
+    2100012: Main_barrel
+    2100014: Spring2
+    2100016: Trigger_guard
+    2100018: Rod
+    2100020: Handle_bottom
+    2100022: Spring_stopper
+    2100024: Main_body
+    2100026: Shell
+    2100028: Upper
+    2100030: Handguard
+    2100032: Magazine
+    2100034: Stock
+    2100036: Gas_tube_protector
+    2100038: Bolt_ready
+    2100040: Protective_cup
+    2100042: Spring
+    2100044: Button_upper
+    2100046: Bolt
+    2100048: Selector
+    2300000: Backsight_low
+    2300002: Bolt_low
+    2300004: Bolt_ready_low
+    2300006: Button_upper_low
+    2300008: Flashhider_low
+    2300010: g Default
+    2300012: Gas_tube_protector_low
+    2300014: handguard_low
+    2300016: Handle_bottom_low
+    2300018: Handle_low
+    2300020: Magazine_low
+    2300022: Main_barrel_low
+    2300024: Main_body_low
+    2300026: Piston_low
+    2300028: Protective_cup_low
+    2300030: Rod_low
+    2300032: Selector_low
+    2300034: Shells_low
+    2300036: Spring2_low
+    2300038: Spring_low
+    2300040: Spring_stopper_low
+    2300042: Stock_low
+    2300044: trigger_group_low
+    2300046: Trigger_guard_low
+    2300048: Upper_low
+    3300000: Backsight_low
+    3300002: Bolt_low
+    3300004: Bolt_ready_low
+    3300006: Button_upper_low
+    3300008: Flashhider_low
+    3300010: g Default
+    3300012: Gas_tube_protector_low
+    3300014: handguard_low
+    3300016: Handle_bottom_low
+    3300018: Handle_low
+    3300020: Magazine_low
+    3300022: Main_barrel_low
+    3300024: Main_body_low
+    3300026: Piston_low
+    3300028: Protective_cup_low
+    3300030: Rod_low
+    3300032: Selector_low
+    3300034: Shells_low
+    3300036: Spring2_low
+    3300038: Spring_low
+    3300040: Spring_stopper_low
+    3300042: Stock_low
+    3300044: trigger_group_low
+    3300046: Trigger_guard_low
+    3300048: Upper_low
+    4300000: g Default
+    4300002: Backsight_low
+    4300004: Flashhider_low
+    4300006: Handle_low
+    4300008: Piston_low
+    4300010: trigger_group_low
+    4300012: Main_barrel_low
+    4300014: Spring2_low
+    4300016: Trigger_guard_low
+    4300018: Rod_low
+    4300020: Handle_bottom_low
+    4300022: Spring_stopper_low
+    4300024: Main_body_low
+    4300026: Shells_low
+    4300028: Upper_low
+    4300030: handguard_low
+    4300032: Magazine_low
+    4300034: Stock_low
+    4300036: Gas_tube_protector_low
+    4300038: Bolt_ready_low
+    4300040: Protective_cup_low
+    4300042: Spring_low
+    4300044: Button_upper_low
+    4300046: Bolt_low
+    4300048: Selector_low
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
