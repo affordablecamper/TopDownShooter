@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
     private bool _isDead = false;
@@ -13,6 +14,8 @@ public class PlayerHealth : MonoBehaviour
     private GameObject text;
     public Behaviour[] toDisable;
     public CapsuleCollider collider;
+  
+    public GameObject gameOver;
     private void Start()
     {
        
@@ -26,7 +29,7 @@ public class PlayerHealth : MonoBehaviour
        
         
         health -= __amount;
-        if (health <= 0)
+        if (health == 0)
         {
 
 
@@ -38,14 +41,22 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-   
+    public void Update()
+    {
+        if (health <= 0) {
 
-    
+            if (Input.GetKeyDown(KeyCode.R))
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+
+        }
+    }
+
+
     public void die()
     {
         
        GameObject rg = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
-       Destroy(rg, 5f);
+       //Destroy(rg, 5f);
        GFX.SetActive(false);
        collider.enabled = false;
         foreach (Behaviour b in toDisable)
@@ -53,6 +64,7 @@ public class PlayerHealth : MonoBehaviour
             b.enabled = false;
         }
         this.enabled = false;
-       
+        
+        gameOver.SetActive(true);
     }
 }

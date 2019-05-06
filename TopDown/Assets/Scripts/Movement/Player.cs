@@ -26,6 +26,12 @@ public class Player : MonoBehaviour
     public AudioSource source;
     public AudioClip pickUp;
     public Text text;
+    public Text pump;
+    public Text ak47;
+    public Text mp5sd;
+    public Text mp5;
+    public Text mp40;
+    public GameObject weaponSelect;
     void Start()
     {
         controller = GetComponent<PlayerController>();
@@ -75,7 +81,7 @@ public class Player : MonoBehaviour
                 
                 if (Input.GetButtonDown("Fire2"))
                 {
-
+                
                 
 
                 if (hit.collider.tag == "AK47") {
@@ -86,6 +92,11 @@ public class Player : MonoBehaviour
                     guns[0].SetActive(true);
                     source.PlayOneShot(pickUp);
                     text.enabled = true;
+                    ak47.enabled = true;
+                    mp5.enabled = false;
+                    mp5sd.enabled = false;
+                    mp40.enabled = false;
+                    pump.enabled = false;
                 }
 
                     
@@ -98,6 +109,11 @@ public class Player : MonoBehaviour
                     guns[1].SetActive(true);
                     source.PlayOneShot(pickUp);
                     text.enabled = true;
+                    mp5.enabled = true;
+                    ak47.enabled = false;
+                    mp5sd.enabled = false;
+                    mp40.enabled = false;
+                    pump.enabled = false;
                 }
 
                     
@@ -111,6 +127,10 @@ public class Player : MonoBehaviour
                     guns[2].SetActive(true);
                     source.PlayOneShot(pickUp);
                     text.enabled = true;
+                    mp5sd.enabled = true;
+                    ak47.enabled = false;
+                    mp40.enabled = false;
+                    pump.enabled = false;
                 }
 
 
@@ -120,8 +140,30 @@ public class Player : MonoBehaviour
                     weapon.magAmmo = data.magAmmo;
                     source.PlayOneShot(pickUp);
                     Destroy(hit.collider.gameObject);
-                        guns[3].SetActive(true);
+                    guns[3].SetActive(true);
                     text.enabled = true;
+                    mp40.enabled = true;
+                    mp5sd.enabled = false;
+                    ak47.enabled = false;
+                    mp5.enabled = false;
+                    pump.enabled = false;
+                }
+
+
+                if (hit.collider.tag == "Pump")
+                {
+                    WeaponData data = hit.collider.GetComponent<WeaponData>();
+                    Shotgun weapon = guns[4].GetComponent<Shotgun>();
+                    weapon.magAmmo = data.magAmmo;
+                    source.PlayOneShot(pickUp);
+                    Destroy(hit.collider.gameObject);
+                    guns[4].SetActive(true);
+                    text.enabled = true;
+                    pump.enabled = true;
+                    mp5sd.enabled = false;
+                    ak47.enabled = false;
+                    mp40.enabled = false;
+                    mp5.enabled = false;
                 }
 
             }

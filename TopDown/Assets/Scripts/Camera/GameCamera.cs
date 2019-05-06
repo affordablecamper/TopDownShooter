@@ -4,7 +4,8 @@ using System.Collections;
 public class GameCamera : MonoBehaviour {
 	public Transform trackedObject,trackedObjectZoom,targetCamera;
 	public Vector3 offset;
-	static GameCamera myslf;
+    public float cameraMovement;
+    static GameCamera myslf;
 	Misc_Timer shakeTimer = new Misc_Timer ();
 	Transform currentTrackedObject;
 	void Awake(){
@@ -18,21 +19,26 @@ public class GameCamera : MonoBehaviour {
 
     private void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             currentTrackedObject = trackedObjectZoom;
+            targetCamera.position = Vector3.Lerp(targetCamera.position, currentTrackedObject.position, 0.05f) + offset;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             currentTrackedObject = trackedObject;
+            targetCamera.position = Vector3.Lerp(targetCamera.position, currentTrackedObject.position, 0.05f) + offset;
         }
     }
 
     // Update is called once per frame
     void FixedUpdate () {
-	//	offset = offsetObject.position - trackedObject.position;
-		targetCamera.position = Vector3.Lerp (targetCamera.position, currentTrackedObject.position, 0.05f)+offset;
-		shakeTimer.UpdateTimer ();
+
+        //targetCamera.position = Vector3.Lerp (targetCamera.position, currentTrackedObject.position, 0.05f)+offset;
+        Vector3 pos = Vector3.Lerp(targetCamera.position, currentTrackedObject.position, 0.05f) + offset;
+        targetCamera.position = pos;
+        shakeTimer.UpdateTimer ();
 		if (shakeTimer.IsActive())
 			UpdateShake ();
 		

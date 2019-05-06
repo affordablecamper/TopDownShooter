@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 public class EnemyHealth : MonoBehaviour
 {
     private bool _isDead = false;
@@ -20,12 +21,13 @@ public class EnemyHealth : MonoBehaviour
     public float throwPower;
     public bool knockedOut;
     public Collider col;
+    public NavMeshAgent agent;
     private void Start()
     {
-
+        agent = GetComponent<NavMeshAgent>();
         aiScript = GetComponent<NewEnemyAI>();
     }
-    public void takeDamage(int __amount)
+    public void takeDamage(float __amount)
     {
 
         if (isDead)
@@ -33,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
 
 
         health -= __amount;
-        if (health <= 0)
+        if (health == 0)
         {
 
 
@@ -47,12 +49,16 @@ public class EnemyHealth : MonoBehaviour
     
     public void knockOut() {
 
+        if (aiScript.droppedWeapon == false) {
+            GameObject gunProjectile = Instantiate(throwGun, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
+            gunProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward.normalized * throwPower);
+
+        }
         rgk = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
         StartCoroutine(BackUp());
         aiScript.enabled = false;
         col.enabled = false;
-        GameObject gunProjectile = Instantiate(throwGun, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
-        gunProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward.normalized * throwPower);
+        agent.isStopped = true;
         weapon.SetActive(false);
         knockedOut = true;
         gfx.SetActive(false);
@@ -69,6 +75,7 @@ public class EnemyHealth : MonoBehaviour
         knockedOut = false;
         col.enabled = true;
         gfx.SetActive(true);
+        agent.isStopped = false;
     }
 
     public void die()

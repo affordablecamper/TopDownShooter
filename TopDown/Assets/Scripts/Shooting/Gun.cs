@@ -42,6 +42,7 @@ public class Gun : MonoBehaviour
     private float muzzleFlashTimerStart;
     public float muzzleflashtime = 0.1f;
     public int damage = 1;
+    public float audioRange;
     [Header("GameObjects")]
     [Space]
     public GameObject muzzleFlashObject; //muzzle flash
@@ -49,6 +50,8 @@ public class Gun : MonoBehaviour
     public GameObject tracer;
     public GameObject throwGun;
     public GameObject gun;
+    public GameObject metalImpactEffect;
+    public GameObject weaponSelect;
     [Space]
     [Header("Transforms")]
     public Transform bulletCasingSpawn; //The location of the "bulletcasingspawn"
@@ -94,6 +97,7 @@ public class Gun : MonoBehaviour
             WeaponData gunPickUp = gunProjectile.GetComponent<WeaponData>();
             gunPickUp.magAmmo = magAmmo;
             magAmmoText.enabled = false;
+            
         }
 
 
@@ -167,6 +171,7 @@ public class Gun : MonoBehaviour
                 Instantiate(bulletCasing, bulletCasingSpawn.position, bulletCasingSpawn.transform.rotation);
                 magAmmo -= 1;
                 muzzleFlashEnabled = true;
+                AlertEnemies();
                 //CameraShaker.Instance.ShakeOnce(Magnitude, Roughness, 0, FadeOutTime);
                 source.PlayOneShot(gunshotClip);
                 RaycastHit hitInfo;
@@ -180,8 +185,27 @@ public class Gun : MonoBehaviour
                     enem.takeDamage(damage);
 
                 }
+
+                if (hitInfo.collider.tag == "Metal")
+                {
+                    Instantiate(metalImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+
                 }
+
+            }
             }
 
     }
+    private void AlertEnemies()
+    {
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, audioRange, transform.up);
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider != null && hit.collider.tag == "Enemy")
+            {
+                hit.collider.GetComponent<NewEnemyAI>().SetAlertPos(transform.position);
+            }
+        }
+    }
+
 }

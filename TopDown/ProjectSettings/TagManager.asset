@@ -7,6 +7,12 @@ TagManager:
   - Weapon
   - Waypoint
   - Enemy
+  - MP5
+  - MP5SD
+  - AK47
+  - MP40
+  - Pump
+  - Metal
   layers:
   - Default
   - TransparentFX

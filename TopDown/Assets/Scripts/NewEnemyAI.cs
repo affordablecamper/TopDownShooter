@@ -63,8 +63,10 @@ public class NewEnemyAI : MonoBehaviour
     public bool canSee;
     public float inspectTimer;
     private float inspectTimerStart;
+    public bool alerted;
     public bool droppedWeapon;
     public GameObject weapon;
+    public bool audioStatic;
     void Start()
     {
         waitTimeStart = waitTime;
@@ -76,9 +78,32 @@ public class NewEnemyAI : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    public void SetAlertPos(Vector3 playerLocation) {
 
-    
+        if (!audioStatic) {
+            agent.isStopped = false;
+            isRoaming = false;
+            isChasing = false;
+            agent.SetDestination(playerLocation);
+            anim.SetBool("isChasing", true);
+            anim.SetBool("isRoaming", false);
+            StartCoroutine("NoLongerAlerted", inspectTimer);
+            alerted = true;
+        }
+       
+    }
 
+    IEnumerator NoLongerAlerted(float delay)
+    {
+
+
+        yield return new WaitForSeconds(delay);
+        isRoaming = true;
+        isChasing = false;
+        anim.SetBool("isChasing", false);
+        anim.SetBool("isRoaming", false);
+        alerted = false;
+    }
 
     // Update is called once per frame
     void Update()
@@ -88,6 +113,7 @@ public class NewEnemyAI : MonoBehaviour
             isRoaming = false;
             isChasing = false;
             canShoot = false;
+            canSee = false;
             LookForWeapon();
 
         }
@@ -103,6 +129,7 @@ public class NewEnemyAI : MonoBehaviour
             }
             if (canShoot)
             {
+                agent.isStopped = true;
                 anim.SetBool("isRoaming", false);
                 anim.SetBool("isChasing", false);
             }
@@ -145,6 +172,9 @@ public class NewEnemyAI : MonoBehaviour
             //checks if player is alive
             if (playerisDead)
             {
+                agent.isStopped = true;
+                anim.SetBool("isRoaming", false);
+                anim.SetBool("isChasing", false);
                 target = null;
                 this.enabled = false;
             }
@@ -177,7 +207,7 @@ public class NewEnemyAI : MonoBehaviour
             {
 
                 if (canShoot && !droppedWeapon)
-                    OnShoot();
+                    StartCoroutine("ReactionTime", .285f);
 
 
 
@@ -207,7 +237,7 @@ public class NewEnemyAI : MonoBehaviour
             if (target != null && !droppedWeapon)
             {
                 direction = (target.transform.position - transform.position).normalized;
-                StartCoroutine("FindTargetsWithDelay", .125f);
+                StartCoroutine("FindTargetsWithDelay", 0f);
                 _distance = Vector3.Distance(target.transform.position, transform.position);
                 if (_distance <= viewRadius)
                 {
@@ -231,6 +261,14 @@ public class NewEnemyAI : MonoBehaviour
 
 
     }
+
+    IEnumerator ReactionTime(float delay) {
+
+        
+        yield return new WaitForSeconds(delay);
+        OnShoot();
+    }
+
 
     void LookForWeapon()
     {
@@ -270,15 +308,28 @@ public class NewEnemyAI : MonoBehaviour
 
     private void GoToWeaponTarget()
     {
-        agent.isStopped = false;
-        agent.SetDestination(weaponTarget.position);
-        anim.SetBool("isRoaming", true);
-        if (agent.remainingDistance <= 0) {
-            Destroy(weaponTarget.gameObject);
-            weapon.SetActive(true);
-            droppedWeapon = false;
-            isRoaming = true;
+        if (weaponTarget != null) {
+            agent.isStopped = false;
+            agent.SetDestination(weaponTarget.position);
+            anim.SetBool("isRoaming", true);
+            float distanceToGun = Vector3.Distance(transform.position, weaponTarget.transform.position);
+            if (agent.remainingDistance <= 0 &&distanceToGun <= 1.5f)
+            {
+               
+                Destroy(weaponTarget.gameObject);
+                weapon.SetActive(true);
+                droppedWeapon = false;
+                isRoaming = true;
+            }
+            else {
+                weapon.SetActive(false);
+                droppedWeapon = true;
+                isRoaming = false;
+
+            }
+
         }
+        
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -310,7 +361,7 @@ public class NewEnemyAI : MonoBehaviour
                     if (Physics.Raycast(shootPos.transform.position, shootPos.transform.forward, out hitInfo))
                     {
 
-                        if (hitInfo.collider.tag == "Player")
+                        if (hitInfo.collider.tag == "Player" &&!droppedWeapon)
                         {
 
                             visibleTargets.Add(hitInfo.transform);
@@ -334,12 +385,15 @@ public class NewEnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canShoot) {
+        if (canShoot && droppedWeapon == false) {
 
             Vector3 dir = target.position - transform.position;
             Quaternion lookRotatation = Quaternion.LookRotation(dir);
             Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotatation, Time.deltaTime * botAimSpeed).eulerAngles;
             transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
+
+
+
         }
         
     }
@@ -347,13 +401,15 @@ public class NewEnemyAI : MonoBehaviour
     private void OnShoot()
     {
 
-        
-            //shootPos.LookAt(closestTarget);
-            
-            
 
-            
-            RaycastHit hitInfo;
+        //shootPos.LookAt(closestTarget);
+
+
+        agent.isStopped = true;
+        anim.SetBool("isRoaming", false);
+        anim.SetBool("isChasing", false);
+
+        RaycastHit hitInfo;
             muzzleFlashEnable = true;
             Audio.PlayOneShot(fire);
 
@@ -442,4 +498,6 @@ public class NewEnemyAI : MonoBehaviour
         }
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
+
+    
 }
