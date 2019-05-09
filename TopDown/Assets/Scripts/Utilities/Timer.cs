@@ -6,15 +6,28 @@ public class Timer : MonoBehaviour
 {
     public Text timer;
     public float time;
-    
+    public CountEnemies enem;
+    public bool pauseTime;
 
     // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
-        string minutes = Mathf.Floor((time % 3600) / 60).ToString("00");
-        string seconds = (time % 60).ToString("00");
+        if (Input.GetKeyDown(KeyCode.Tab))
+            time = 0f;
 
-        timer.text = minutes + ":" + seconds;
+            enem = GameObject.FindGameObjectWithTag("gm destroy").GetComponent<CountEnemies>();
+
+        
+        if (enem.enemies.Length <= 0)
+            pauseTime = true;
+        if (!pauseTime) {
+
+            time += Time.deltaTime;
+            string minutes = Mathf.Floor((time % 3600) / 60).ToString("00");
+            string seconds = (time % 60).ToString("00");
+
+            timer.text = minutes + ":" + seconds;
+        }
+        
     }
 }

@@ -208,7 +208,7 @@ public class Shotgun : MonoBehaviour
                         {
 
                             EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
-                            enem.takeDamage(damage);
+                            enem.takeDamage(damage,transform.forward);
 
                         }
 

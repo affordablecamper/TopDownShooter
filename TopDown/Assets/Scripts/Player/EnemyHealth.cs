@@ -22,12 +22,13 @@ public class EnemyHealth : MonoBehaviour
     public bool knockedOut;
     public Collider col;
     public NavMeshAgent agent;
+    public TimeManager timeManage;
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         aiScript = GetComponent<NewEnemyAI>();
     }
-    public void takeDamage(float __amount)
+    public void takeDamage(float __amount, Vector3 fwd)
     {
 
         if (isDead)
@@ -40,7 +41,7 @@ public class EnemyHealth : MonoBehaviour
 
 
             this.enabled = false;
-            die();
+            die(fwd);
 
         }
 
@@ -78,14 +79,21 @@ public class EnemyHealth : MonoBehaviour
         agent.isStopped = false;
     }
 
-    public void die()
+    public void die(Vector3 fwd)
     {
 
         GameObject rg = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
+        
+        
+        rg.transform.Find("spine").GetComponent<Rigidbody>().AddForce(fwd.normalized * 150000f);
+        
         GameObject gunProjectile = Instantiate(throwGun, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
+        
+        timeManage.slowdownLength = .55f;
+        timeManage.DoSlowmotion();
         gunProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward.normalized * throwPower);
         //Destroy(rg, 5f);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
 
     }
 }

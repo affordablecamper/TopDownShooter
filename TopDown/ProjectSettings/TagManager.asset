@@ -13,6 +13,9 @@ TagManager:
   - MP40
   - Pump
   - Metal
+  - no destroy
+  - gm destroy
+  - addForce
   layers:
   - Default
   - TransparentFX

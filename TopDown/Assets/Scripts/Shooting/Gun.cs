@@ -182,7 +182,7 @@ public class Gun : MonoBehaviour
                     if (hitInfo.collider.tag == "Enemy") {
 
                     EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
-                    enem.takeDamage(damage);
+                    enem.takeDamage(damage, transform.forward);
 
                 }
 
