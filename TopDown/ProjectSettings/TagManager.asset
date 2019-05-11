@@ -16,6 +16,7 @@ TagManager:
   - no destroy
   - gm destroy
   - addForce
+  - FPS
   layers:
   - Default
   - TransparentFX

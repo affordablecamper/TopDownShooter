@@ -17,9 +17,14 @@ public class Timer : MonoBehaviour
 
             enem = GameObject.FindGameObjectWithTag("gm destroy").GetComponent<CountEnemies>();
 
-        
+
         if (enem.enemies.Length <= 0)
+        {
+
             pauseTime = true;
+        }
+        else pauseTime = false;
+            
         if (!pauseTime) {
 
             time += Time.deltaTime;

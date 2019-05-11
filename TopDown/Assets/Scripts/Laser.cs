@@ -28,7 +28,12 @@ public class Laser : MonoBehaviour
                 lr.SetPosition(1, hit.point);
 
         }
-        
+        else 
+        {
+
+            lr.SetPosition(0, muzzle.position);
+            lr.SetPosition(1, muzzle.position * 5000);
+        }
 
     }
 }

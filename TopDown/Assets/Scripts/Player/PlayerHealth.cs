@@ -14,14 +14,14 @@ public class PlayerHealth : MonoBehaviour
     private GameObject text;
     public Behaviour[] toDisable;
     public CapsuleCollider collider;
-  
+    public TimeManager timeManage;
     public GameObject gameOver;
     private void Start()
     {
        
         
     }
-    public void takeDamage(int __amount)
+    public void takeDamage(int __amount, Vector3 fwd)
     {
        
         if (isDead)
@@ -34,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
 
 
 
-            die();
+            die(fwd);
 
         }
 
@@ -52,10 +52,12 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-    public void die()
+    public void die(Vector3 fwd)
     {
-        
+       timeManage.slowdownLength = 2f;
+       timeManage.DoSlowmotion();
        GameObject rg = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
+       rg.transform.Find("spine").GetComponent<Rigidbody>().AddForce(fwd.normalized * 150000f);
        //Destroy(rg, 5f);
        GFX.SetActive(false);
        collider.enabled = false;

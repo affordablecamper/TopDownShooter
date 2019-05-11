@@ -424,7 +424,7 @@ public class NewEnemyAI : MonoBehaviour
 
 
                     PlayerHealth _Player = hitInfo.collider.GetComponent<PlayerHealth>();
-                    _Player.takeDamage(damage);
+                    _Player.takeDamage(damage, transform.forward);
 
 
                     if (_Player.health <= 0)

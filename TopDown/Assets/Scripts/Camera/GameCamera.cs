@@ -17,9 +17,10 @@ public class GameCamera : MonoBehaviour {
 
 	}
 
-    private void Update()
-    {
-        
+    
+    // Update is called once per frame
+    void FixedUpdate () {
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             currentTrackedObject = trackedObjectZoom;
@@ -30,10 +31,7 @@ public class GameCamera : MonoBehaviour {
             currentTrackedObject = trackedObject;
             targetCamera.position = Vector3.Lerp(targetCamera.position, currentTrackedObject.position, 0.05f) + offset;
         }
-    }
 
-    // Update is called once per frame
-    void FixedUpdate () {
 
         //targetCamera.position = Vector3.Lerp (targetCamera.position, currentTrackedObject.position, 0.05f)+offset;
         Vector3 pos = Vector3.Lerp(targetCamera.position, currentTrackedObject.position, 0.05f) + offset;

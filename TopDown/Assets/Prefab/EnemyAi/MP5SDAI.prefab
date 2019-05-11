@@ -3436,7 +3436,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7505641294641025548}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.329, z: 0}
+  m_LocalPosition: {x: 0, y: 0.329, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7505641295221495197}
@@ -3504,7 +3504,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 4.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -3638,6 +3638,7 @@ MonoBehaviour:
   knockedOut: 0
   col: {fileID: 7505641295221495196}
   agent: {fileID: 0}
+  timeManage: {fileID: 0}
 --- !u!114 &150566572625752021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3650,12 +3651,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf512dd9227ec14ead779e6c683922d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 5
+  waitTime: 2
   anim: {fileID: 1696897977228170908}
   isChasing: 0
   isRoaming: 0
   foundTarget: 0
   points:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   agent: {fileID: 7505641295221495199}
@@ -3686,12 +3689,14 @@ MonoBehaviour:
   damage: 1
   shootPos: {fileID: 7505641294641025549}
   playerisDead: 0
-  botAimSpeed: 15
+  botAimSpeed: 12
   shootDistance: 5
   canSee: 0
   inspectTimer: 1
+  alerted: 0
   droppedWeapon: 0
   weapon: {fileID: 7505641294591712298}
+  audioStatic: 0
 --- !u!54 &2987465938205301760
 Rigidbody:
   m_ObjectHideFlags: 0

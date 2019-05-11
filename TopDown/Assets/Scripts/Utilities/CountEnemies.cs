@@ -8,6 +8,7 @@ public class CountEnemies : MonoBehaviour
     public int count;
     public Text countText;
     public GameObject winText;
+    
     // Start is called before the first frame update
     void Start()
     {

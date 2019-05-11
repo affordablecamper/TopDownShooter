@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour
     public CameraShake cameraShake;
     [Header("UI")]
     public Text magAmmoText;
-    
+    public GameObject noAmmo;
 
     [Space]
     [Header("Anim")]
@@ -51,6 +51,7 @@ public class Gun : MonoBehaviour
     public GameObject throwGun;
     public GameObject gun;
     public GameObject metalImpactEffect;
+    public GameObject bloodImpact;
     public GameObject weaponSelect;
     [Space]
     [Header("Transforms")]
@@ -105,14 +106,18 @@ public class Gun : MonoBehaviour
             source.PlayOneShot(outOfAmmo);
 
         if (magAmmo <= 0)
-            {
+        {
 
-                magEmpty = true;
+            magEmpty = true;
+            noAmmo.SetActive(true);
 
+        }
+        else
+        {
+            magEmpty = false;
+            noAmmo.SetActive(false);
+        }
 
-            }
-            else magEmpty = false;
-            
 
 
         if (Input.GetButtonDown("Fire1")&&magEmpty == false)
@@ -183,6 +188,7 @@ public class Gun : MonoBehaviour
 
                     EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
                     enem.takeDamage(damage, transform.forward);
+                    Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
 
                 }
 

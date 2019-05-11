@@ -12,7 +12,7 @@ public class Shotgun : MonoBehaviour
     public CameraShake cameraShake;
     [Header("UI")]
     public Text magAmmoText;
-    
+    public GameObject noAmmo;
 
     [Space]
     [Header("Anim")]
@@ -58,6 +58,7 @@ public class Shotgun : MonoBehaviour
     public GameObject throwGun;
     public GameObject gun;
     public GameObject metalImpactEffect;
+    public GameObject bloodImpact;
     public GameObject weaponSelect;
     [Space]
     [Header("Transforms")]
@@ -113,14 +114,17 @@ public class Shotgun : MonoBehaviour
             source.PlayOneShot(outOfAmmo);
 
         if (magAmmo <= 0)
-            {
+        {
 
-                magEmpty = true;
+            magEmpty = true;
+            noAmmo.SetActive(true);
 
-
-            }
-            else magEmpty = false;
-            
+        }
+        else
+        {
+            magEmpty = false;
+            noAmmo.SetActive(false);
+        }
 
 
         if (Input.GetButtonDown("Fire1")&&magEmpty == false)
@@ -194,7 +198,7 @@ public class Shotgun : MonoBehaviour
                 
 
 
-                    muzzleFlashEnabled = true;
+                muzzleFlashEnabled = true;
                 //CameraShaker.Instance.ShakeOnce(Magnitude, Roughness, 0, FadeOutTime);
                
                 RaycastHit hitInfo;
@@ -207,9 +211,10 @@ public class Shotgun : MonoBehaviour
                         if (hitInfo.collider.tag == "Enemy")
                         {
 
+                            Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
                             EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
                             enem.takeDamage(damage,transform.forward);
-
+                            
                         }
 
                         if (hitInfo.collider.tag == "Metal")
