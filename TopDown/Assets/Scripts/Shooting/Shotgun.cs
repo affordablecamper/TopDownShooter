@@ -223,7 +223,10 @@ public class Shotgun : MonoBehaviour
 
                         }
 
-                    }
+
+
+
+                }
 
                 }
 

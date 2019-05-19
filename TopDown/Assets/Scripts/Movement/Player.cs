@@ -210,7 +210,7 @@ public class Player : MonoBehaviour
         anim.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
         anim.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
     }
-
+    
     private void ConvertMoveInput()
     {
         Vector3 localMove = transform.InverseTransformDirection(moveInput);

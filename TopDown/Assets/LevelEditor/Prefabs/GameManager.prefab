@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5576515347626023219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5576515347626023217}
+  - component: {fileID: 5576515347626023182}
+  - component: {fileID: 5576515347626023216}
+  - component: {fileID: 5576515347626023183}
+  - component: {fileID: 5576515347626023180}
+  - component: {fileID: 5576515347626023181}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: gm destroy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5576515347626023217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576515347626023219}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.5580664, y: 0.8593027, z: 25.213879}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5576515347626023182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576515347626023219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb14894d367e39409a48c0aaa98523e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies: []
+  count: 0
+  countText: {fileID: 0}
+  winText: {fileID: 0}
+--- !u!114 &5576515347626023216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576515347626023219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b69b380c22a6c4f90bae054e31bf2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 0}
+  _enemies: {fileID: 5576515347626023182}
+--- !u!114 &5576515347626023183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576515347626023219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfb227ecd017aa41b72dd1ff92ad94c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowdownFactor: 0.05
+  slowdownLength: 0.25
+--- !u!114 &5576515347626023180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576515347626023219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defe537f04588714e9b68c5311e4e1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalScore: 0
+  scoreText: {fileID: 0}
+  desiredNumber: 0
+  initialNumber: 0
+  currentNumber: 0
+  animationTime: 0.5
+  streak: {fileID: 5576515347626023181}
+  renderCanvas: {fileID: 0}
+  pos: {fileID: 0}
+  multipliedScore: 0
+  posAddText: {x: 0, y: 0, z: 0}
+--- !u!114 &5576515347626023181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576515347626023219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274e1c2687fe20d42badb6bbb2dcc571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killstreakTime: 3
+  killstreakTimeStart: 0
+  streakMultiplier: {fileID: 0}
+  streakText: {fileID: 0}
+  kills: 0
