@@ -66,7 +66,9 @@ public class NewEnemyAI : MonoBehaviour
     public bool alerted;
     public bool droppedWeapon;
     public GameObject weapon;
+    private float reactionTime;
     public bool audioStatic;
+    public bool friendly;
     void Start()
     {
         waitTimeStart = waitTime;
@@ -77,6 +79,8 @@ public class NewEnemyAI : MonoBehaviour
         inspectTimerStart = inspectTimer;
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
+
+
 
     public void SetAlertPos(Vector3 playerLocation) {
 
@@ -108,6 +112,14 @@ public class NewEnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+
+        if (alerted)
+            reactionTime = .253f;
+        else
+            reactionTime = .2855f;
+
 
         if (droppedWeapon) {
             isRoaming = false;
@@ -145,7 +157,7 @@ public class NewEnemyAI : MonoBehaviour
 
             if (visibleTargets.Count <= 0)
             {
-
+                alerted = false;
                 canSee = false;
                 canShoot = false;
                 if (!canSee && !isRoaming)
@@ -166,6 +178,8 @@ public class NewEnemyAI : MonoBehaviour
 
                 }
             }
+            else
+                alerted = true;
 
 
 
@@ -207,7 +221,7 @@ public class NewEnemyAI : MonoBehaviour
             {
 
                 if (canShoot && !droppedWeapon)
-                    StartCoroutine("ReactionTime", .285f);
+                    StartCoroutine("ReactionTime", reactionTime);
 
 
 
@@ -401,7 +415,8 @@ public class NewEnemyAI : MonoBehaviour
     private void OnShoot()
     {
 
-
+        if (friendly)
+            return;
         //shootPos.LookAt(closestTarget);
 
 

@@ -17,6 +17,11 @@ TagManager:
   - gm destroy
   - addForce
   - FPS
+  - ExpBarrel
+  - Concrete
+  - 1
+  - 2
+  - 3
   layers:
   - Default
   - TransparentFX

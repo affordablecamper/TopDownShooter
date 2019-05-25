@@ -59,6 +59,7 @@ public class Shotgun : MonoBehaviour
     public GameObject gun;
     public GameObject metalImpactEffect;
     public GameObject bloodImpact;
+    public GameObject concreteImpactEffect;
     public GameObject weaponSelect;
     [Space]
     [Header("Transforms")]
@@ -223,7 +224,18 @@ public class Shotgun : MonoBehaviour
 
                         }
 
+                    if (hitInfo.collider.tag == "Concrete")
+                    {
+                        Instantiate(concreteImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
 
+                    }
+
+                    if (hitInfo.collider.tag == "ExpBarrel")
+                    {
+                        Instantiate(metalImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                        ExplosiveBarrel barrel = hitInfo.collider.GetComponent<ExplosiveBarrel>();
+                        barrel.Explode();
+                    }
 
 
                 }

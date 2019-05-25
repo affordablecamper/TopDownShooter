@@ -8,24 +8,43 @@ public class CountEnemies : MonoBehaviour
     public int count;
     public Text countText;
     public GameObject winText;
-    
+    public GameObject begText;
+    public Transform player;
+    public bool enemiesAllDead;
     // Start is called before the first frame update
     void Start()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
-    // Update is called once per frame
+   
+  
+
+
     void Update()
     {
+
+        if (enemiesAllDead)
+        {
+            winText.SetActive(true);
+            begText.SetActive(false);
+
+        }
+        else {
+            winText.SetActive(false);
+            begText.SetActive(true);
+        }
+            
+
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         count = enemies.Length;
         countText.text = count.ToString();
 
-        if (enemies.Length <= 0) {
+        if (enemies.Length <= 0)
+            enemiesAllDead = true;
 
-            winText.SetActive(true);
-        } else
-            winText.SetActive(false);
+        else
+            enemiesAllDead = false;
+            
     }
 }

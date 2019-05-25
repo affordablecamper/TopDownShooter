@@ -51,6 +51,7 @@ public class Gun : MonoBehaviour
     public GameObject throwGun;
     public GameObject gun;
     public GameObject metalImpactEffect;
+    public GameObject concreteImpactEffect;
     public GameObject bloodImpact;
     public GameObject weaponSelect;
     [Space]
@@ -196,6 +197,19 @@ public class Gun : MonoBehaviour
                 {
                     Instantiate(metalImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
 
+                }
+
+                if (hitInfo.collider.tag == "Concrete")
+                {
+                    Instantiate(concreteImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+
+                }
+
+                if (hitInfo.collider.tag == "ExpBarrel")
+                {
+                    Instantiate(metalImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                    ExplosiveBarrel barrel = hitInfo.collider.GetComponent<ExplosiveBarrel>();
+                    barrel.Explode();
                 }
 
             }

@@ -54,10 +54,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void die(Vector3 fwd)
     {
-       timeManage.slowdownLength = 2f;
-       timeManage.DoSlowmotion();
+       //timeManage.slowdownLength = 2f;
+       //timeManage.DoSlowmotion();
        GameObject rg = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
-       rg.transform.Find("spine").GetComponent<Rigidbody>().AddForce(fwd.normalized * 150000f);
+       rg.transform.Find("spine").GetComponent<Rigidbody>().AddForce(fwd.normalized * 1500f);
        //Destroy(rg, 5f);
        GFX.SetActive(false);
        collider.enabled = false;

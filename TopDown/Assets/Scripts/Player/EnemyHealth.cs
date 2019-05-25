@@ -99,12 +99,12 @@ public class EnemyHealth : MonoBehaviour
         score.AddPoints(150f);
 
         mText.text = "+ "  + score.multipliedScore.ToString();
-        rg.transform.Find("spine").GetComponent<Rigidbody>().AddForce(fwd.normalized * 150000f);
+        rg.transform.Find("spine").GetComponent<Rigidbody>().AddForce(fwd.normalized * 1500f);
         
         GameObject gunProjectile = Instantiate(throwGun, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
         gunProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward.normalized * throwPower);
-        timeManage.slowdownLength = .55f;
-        timeManage.DoSlowmotion();
+        //timeManage.slowdownLength = .55f;
+        //timeManage.DoSlowmotion();
         //Destroy(rg, 5f);
         gameObject.SetActive(false);
 
