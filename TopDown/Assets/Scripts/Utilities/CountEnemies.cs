@@ -27,12 +27,12 @@ public class CountEnemies : MonoBehaviour
         if (enemiesAllDead)
         {
             winText.SetActive(true);
-            begText.SetActive(false);
+            //begText.SetActive(false);
 
         }
         else {
             winText.SetActive(false);
-            begText.SetActive(true);
+            //begText.SetActive(true);
         }
             
 

@@ -181,12 +181,15 @@ public class Player : MonoBehaviour
     
     
             
-            Debug.DrawLine(ray.origin, hit.point, Color.red);
-            //Debug.DrawRay(ray.origin,ray.direction * 100,Color.red);
+            //Debug.DrawLine(ray.origin, hit.point, Color.red);
+            Debug.DrawRay(ray.origin,ray.direction * 100,Color.red);
             controller.LookAt(hit.point);
-            shootPos.LookAt(hit.point);
-            //fwd.LookAt(hit.point);
-        }
+            //shootPos.LookAt(hit.point);
+            Vector3 targetPostition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+            shootPos.transform.LookAt(targetPostition);
+
+        //fwd.LookAt(hit.point);
+    }
         
 
     

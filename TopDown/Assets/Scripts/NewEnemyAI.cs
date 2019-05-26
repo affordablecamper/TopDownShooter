@@ -63,12 +63,14 @@ public class NewEnemyAI : MonoBehaviour
     public bool canSee;
     public float inspectTimer;
     private float inspectTimerStart;
-    public bool alerted;
+    public bool facingTarget;
     public bool droppedWeapon;
     public GameObject weapon;
-    private float reactionTime;
+    public float reactionTime;
     public bool audioStatic;
     public bool friendly;
+    public GameObject tracer;
+    public float tracerPower;
     void Start()
     {
         waitTimeStart = waitTime;
@@ -92,7 +94,7 @@ public class NewEnemyAI : MonoBehaviour
             anim.SetBool("isChasing", true);
             anim.SetBool("isRoaming", false);
             StartCoroutine("NoLongerAlerted", inspectTimer);
-            alerted = true;
+            
         }
        
     }
@@ -106,7 +108,7 @@ public class NewEnemyAI : MonoBehaviour
         isChasing = false;
         anim.SetBool("isChasing", false);
         anim.SetBool("isRoaming", false);
-        alerted = false;
+       
     }
 
     // Update is called once per frame
@@ -115,10 +117,7 @@ public class NewEnemyAI : MonoBehaviour
 
 
 
-        if (alerted)
-            reactionTime = .253f;
-        else
-            reactionTime = .2855f;
+        
 
 
         if (droppedWeapon) {
@@ -157,7 +156,7 @@ public class NewEnemyAI : MonoBehaviour
 
             if (visibleTargets.Count <= 0)
             {
-                alerted = false;
+                
                 canSee = false;
                 canShoot = false;
                 if (!canSee && !isRoaming)
@@ -178,8 +177,7 @@ public class NewEnemyAI : MonoBehaviour
 
                 }
             }
-            else
-                alerted = true;
+            
 
 
 
@@ -399,32 +397,47 @@ public class NewEnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canShoot && droppedWeapon == false) {
+        if (canShoot && droppedWeapon == false)
+        {
 
             Vector3 dir = target.position - transform.position;
             Quaternion lookRotatation = Quaternion.LookRotation(dir);
             Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotatation, Time.deltaTime * botAimSpeed).eulerAngles;
             transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
+            RaycastHit _hitInfo;
 
+            if (Physics.Raycast(transform.position, transform.forward, out _hitInfo, 1000000))
+                {
+                if (_hitInfo.collider.tag == enemyTag)
+                {
+                    facingTarget = true;
 
+                }
+                else
+                    facingTarget = false;
+
+            }
 
         }
+        
         
     }
 
     private void OnShoot()
     {
-
         if (friendly)
             return;
-        //shootPos.LookAt(closestTarget);
+
+        if (facingTarget &&!playerisDead) {
+            //-shootPos.LookAt(closestTarget);
 
 
-        agent.isStopped = true;
-        anim.SetBool("isRoaming", false);
-        anim.SetBool("isChasing", false);
-
-        RaycastHit hitInfo;
+            agent.isStopped = true;
+            anim.SetBool("isRoaming", false);
+            anim.SetBool("isChasing", false);
+            GameObject newProjectile = Instantiate(tracer, transform.position, transform.rotation) as GameObject;
+            newProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * tracerPower);
+            RaycastHit hitInfo;
             muzzleFlashEnable = true;
             Audio.PlayOneShot(fire);
 
@@ -450,6 +463,10 @@ public class NewEnemyAI : MonoBehaviour
 
 
             }
+
+        }
+        
+        
         
 
     }

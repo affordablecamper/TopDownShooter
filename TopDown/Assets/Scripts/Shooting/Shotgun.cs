@@ -23,6 +23,7 @@ public class Shotgun : MonoBehaviour
     public AudioClip gunshotClip;
     public AudioSource source;
     public AudioClip outOfAmmo;
+    public AudioClip fleshHit;
     [Space]
     [Header("Ammo")]
     public int magAmmo = 30;            //Total mag ammo.
@@ -180,8 +181,8 @@ public class Shotgun : MonoBehaviour
             source.PlayOneShot(gunshotClip);
             magAmmo -= 1;
             fireCountdown = fireRate;
-            GameObject newProjectile = Instantiate(tracer, fwd.transform.position, fwd.transform.rotation) as GameObject;
-            newProjectile.GetComponent<Rigidbody>().AddForce(fwd.transform.forward.normalized * tracerPower);
+            GameObject newProjectile = Instantiate(tracer, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
+            newProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward * tracerPower);
         }
         
         
@@ -212,13 +213,28 @@ public class Shotgun : MonoBehaviour
                         if (hitInfo.collider.tag == "Enemy")
                         {
 
+                            source.PlayOneShot(fleshHit);
                             Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
                             EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
                             enem.takeDamage(damage,transform.forward);
                             
                         }
 
-                        if (hitInfo.collider.tag == "Metal")
+                    if (hitInfo.collider.tag == "RagDoll")
+                    {
+                        source.PlayOneShot(fleshHit);
+                        Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                        Rigidbody rb = hitInfo.collider.GetComponent<Rigidbody>();
+                        rb.AddForce(transform.forward * 1000f);
+                            
+                        
+                       
+                       
+
+                    }
+
+
+                    if (hitInfo.collider.tag == "Metal")
                         {
                             Instantiate(metalImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
 

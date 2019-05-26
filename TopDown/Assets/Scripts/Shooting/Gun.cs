@@ -22,6 +22,7 @@ public class Gun : MonoBehaviour
     public AudioClip gunshotClip;
     public AudioSource source;
     public AudioClip outOfAmmo;
+    public AudioClip fleshHit;
     [Space]
     [Header("Ammo")]
     public int magAmmo = 30;            //Total mag ammo.
@@ -172,8 +173,8 @@ public class Gun : MonoBehaviour
             if (Input.GetButton("Fire1") && magEmpty == false)
             {
                 GameCamera.ToggleShake(Magnitude);
-                GameObject newProjectile = Instantiate(tracer, fwd.transform.position, fwd.transform.rotation) as GameObject;
-                newProjectile.GetComponent<Rigidbody>().AddForce(fwd.transform.forward.normalized * tracerPower);
+                GameObject newProjectile = Instantiate(tracer, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
+                newProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward * tracerPower);
                 Instantiate(bulletCasing, bulletCasingSpawn.position, bulletCasingSpawn.transform.rotation);
                 magAmmo -= 1;
                 muzzleFlashEnabled = true;
@@ -181,6 +182,7 @@ public class Gun : MonoBehaviour
                 //CameraShaker.Instance.ShakeOnce(Magnitude, Roughness, 0, FadeOutTime);
                 source.PlayOneShot(gunshotClip);
                 RaycastHit hitInfo;
+                Debug.DrawRay(shootPos.transform.position, shootPos.transform.forward * weaponRange, Color.black);
                 //StartCoroutine(cameraShake.Shake(FadeOutTime, Magnitude));
             if (Physics.Raycast(shootPos.transform.position, shootPos.transform.forward, out hitInfo, weaponRange))
                 {
@@ -190,9 +192,18 @@ public class Gun : MonoBehaviour
                     EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
                     enem.takeDamage(damage, transform.forward);
                     Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                    source.PlayOneShot(fleshHit);
+                    }
+                if (hitInfo.collider.tag == "RagDoll")
+                {
+                    
+                        source.PlayOneShot(fleshHit);
+                        Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                    
+
+
 
                 }
-
                 if (hitInfo.collider.tag == "Metal")
                 {
                     Instantiate(metalImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));

@@ -22,6 +22,7 @@ TagManager:
   - 1
   - 2
   - 3
+  - RagDoll
   layers:
   - Default
   - TransparentFX
@@ -37,8 +38,8 @@ TagManager:
   - Weapon
   - ProBuilder
   - Building
-  - 
-  - 
+  - Map
+  - Enemy
   - 
   - 
   - 
