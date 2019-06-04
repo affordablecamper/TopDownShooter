@@ -15,6 +15,7 @@ public class CountEnemies : MonoBehaviour
     void Start()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        count = enemies.Length;
     }
 
    
@@ -37,10 +38,10 @@ public class CountEnemies : MonoBehaviour
             
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        count = enemies.Length;
+        
         countText.text = count.ToString();
 
-        if (enemies.Length <= 0)
+        if (count <= 0)
             enemiesAllDead = true;
 
         else

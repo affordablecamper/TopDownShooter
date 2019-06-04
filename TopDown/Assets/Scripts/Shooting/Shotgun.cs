@@ -210,28 +210,16 @@ public class Shotgun : MonoBehaviour
                     if (Physics.Raycast(shootPos.transform.position, direction , out hitInfo, weaponRange))
                     {
 
-                        if (hitInfo.collider.tag == "Enemy")
-                        {
-
-                            source.PlayOneShot(fleshHit);
-                            Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-                            EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
-                            enem.takeDamage(damage,transform.forward);
-                            
-                        }
-
-                    if (hitInfo.collider.tag == "RagDoll")
+                    if (hitInfo.collider.tag == "EnemyBody")
                     {
-                        source.PlayOneShot(fleshHit);
-                        Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-                        Rigidbody rb = hitInfo.collider.GetComponent<Rigidbody>();
-                        rb.AddForce(transform.forward * 1000f);
-                            
-                        
-                       
-                       
 
+                        DamageInfo enem = hitInfo.collider.GetComponent<DamageInfo>();
+                        enem.takeDamage(damage, transform.forward);
+                        Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                        source.PlayOneShot(fleshHit);
                     }
+
+                   
 
 
                     if (hitInfo.collider.tag == "Metal")

@@ -22,7 +22,7 @@ public class EnemyHealth : MonoBehaviour
     public GameObject shootPos;
     public float throwPower;
     public bool knockedOut;
-    public Collider col;
+    public CountEnemies countEnem;
     public NavMeshAgent agent;
     public TimeManager timeManage;
     public Score score;
@@ -30,13 +30,14 @@ public class EnemyHealth : MonoBehaviour
     public GameObject canvas;
     public TextMeshPro mText;
     public Killstreak streak;
-    
+    public Rigidbody[] bodyParts;
+    public Animator anim;
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         aiScript = GetComponent<NewEnemyAI>();
     }
-    public void takeDamage(float __amount, Vector3 fwd)
+    public void takeDamage(float __amount)
     {
 
         if (isDead)
@@ -44,12 +45,13 @@ public class EnemyHealth : MonoBehaviour
 
 
         health -= __amount;
+        
         if (health == 0)
         {
 
 
-            this.enabled = false;
-            die(fwd);
+            die();
+            
 
         }
 
@@ -58,19 +60,23 @@ public class EnemyHealth : MonoBehaviour
     
     public void knockOut() {
 
-        if (aiScript.droppedWeapon == false) {
-            GameObject gunProjectile = Instantiate(throwGun, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
-            gunProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward.normalized * throwPower);
+        GameObject gunProjectile = Instantiate(throwGun, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
+        gunProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward.normalized * throwPower);
+        
 
+        foreach (Rigidbody rb in bodyParts)
+        {
+            rb.isKinematic = false;
         }
-        rgk = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
+        anim.enabled = false;
+        //rgk = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
         StartCoroutine(BackUp());
         aiScript.enabled = false;
-        col.enabled = false;
+
         agent.isStopped = true;
         weapon.SetActive(false);
         knockedOut = true;
-        gfx.SetActive(false);
+        
         aiScript.droppedWeapon = true;
     }
 
@@ -79,34 +85,44 @@ public class EnemyHealth : MonoBehaviour
 
         
         yield return new WaitForSeconds(knockOutTime);
+        foreach (Rigidbody rb in bodyParts)
+        {
+            rb.isKinematic = true;
+        }
         Destroy(rgk);
         aiScript.enabled = true;
         knockedOut = false;
-        col.enabled = true;
-        gfx.SetActive(true);
+        weapon.SetActive(true);
+        anim.enabled = true;
         agent.isStopped = false;
     }
 
-    public void die(Vector3 fwd)
+    public void die()
     {
-
-        GameObject rg = (GameObject)Instantiate(ragdoll, transform.position, Quaternion.identity);
+        countEnem.count--;
+        aiScript.enabled = false;
+        anim.enabled = false;
+        weapon.SetActive(false);
+        foreach (Rigidbody rb in bodyParts)
+        {
+            rb.isKinematic = false;
+        }
         GameObject textAdd = Instantiate(addText, transform.position, addText.transform.rotation) as GameObject;
-        mText = textAdd.GetComponent<TextMeshPro>();       
+        mText = textAdd.GetComponent<TextMeshPro>();
         
         textAdd.transform.SetParent(canvas.transform);
         streak.addKill();
         score.AddPoints(150f);
 
         mText.text = "+ "  + score.multipliedScore.ToString();
-        rg.transform.Find("spine").GetComponent<Rigidbody>().AddForce(fwd.normalized * 1500f);
+        
         
         GameObject gunProjectile = Instantiate(throwGun, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
         gunProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward.normalized * throwPower);
         //timeManage.slowdownLength = .55f;
         //timeManage.DoSlowmotion();
         //Destroy(rg, 5f);
-        gameObject.SetActive(false);
-
+        //gameObject.SetActive(false);
+        
     }
 }

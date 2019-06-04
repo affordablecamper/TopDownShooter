@@ -6,7 +6,7 @@ using EZCameraShake;
 using UnityEngine.UI;
 public class Gun : MonoBehaviour
 {
-
+    public Player player;
     public Behaviour thisScript;
     public CameraShake cameraShake;
     [Header("UI")]
@@ -187,23 +187,14 @@ public class Gun : MonoBehaviour
             if (Physics.Raycast(shootPos.transform.position, shootPos.transform.forward, out hitInfo, weaponRange))
                 {
                 
-                    if (hitInfo.collider.tag == "Enemy") {
+                    if (hitInfo.collider.tag == "EnemyBody") {
 
-                    EnemyHealth enem = hitInfo.collider.GetComponent<EnemyHealth>();
-                    enem.takeDamage(damage, transform.forward);
+                    DamageInfo enem = hitInfo.collider.GetComponent<DamageInfo>();
+                    enem.takeDamage(damage, shootPos.transform.forward);
                     Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
                     source.PlayOneShot(fleshHit);
                     }
-                if (hitInfo.collider.tag == "RagDoll")
-                {
-                    
-                        source.PlayOneShot(fleshHit);
-                        Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-                    
-
-
-
-                }
+               
                 if (hitInfo.collider.tag == "Metal")
                 {
                     Instantiate(metalImpactEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));

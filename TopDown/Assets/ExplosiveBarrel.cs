@@ -26,14 +26,14 @@ public class ExplosiveBarrel : MonoBehaviour
                 rb.AddExplosionForce(explosionForce, transform.position, range);
 
 
-            if (nearbyObject != null && nearbyObject.gameObject.tag == "Enemy")
+            if (nearbyObject != null && nearbyObject.gameObject.tag == "EnemyBody")
             {
 
-                nearbyObject.GetComponent<EnemyHealth>().takeDamage(1, transform.forward);
-
+                DamageInfo enem = nearbyObject.GetComponent<DamageInfo>();
+                enem.takeDamage(1, transform.forward);
             }
 
-            if (nearbyObject != null && nearbyObject.gameObject.tag == "Player")
+                if (nearbyObject != null && nearbyObject.gameObject.tag == "Player")
             {
 
                 nearbyObject.GetComponent<PlayerHealth>().takeDamage(1, transform.forward);

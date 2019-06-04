@@ -18,16 +18,16 @@ public class ThrowableObject : MonoBehaviour
         
     }
 
-
+    
 
     void OnCollisionEnter(Collision col)
     {
 
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "EnemyBody")
         {
             if (col.relativeVelocity.magnitude > 1) {
-                EnemyHealth enem = col.collider.GetComponent<EnemyHealth>();
-                enem.knockOut();
+                //DamageInfo enem = col.collider.GetComponent<DamageInfo>();
+                //enem.knockOut();
                 source.PlayOneShot(clip);
             }
                 

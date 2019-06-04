@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public Text mp5;
     public Text mp40;
     public GameObject weaponSelect;
+    
     void Start()
     {
         controller = GetComponent<PlayerController>();
@@ -41,7 +42,7 @@ public class Player : MonoBehaviour
         //viewCamera = Camera.main;
     }
    
-    void Update()
+    void FixedUpdate()
     {
 
 
@@ -152,6 +153,7 @@ public class Player : MonoBehaviour
 
                 if (hit.collider.tag == "Pump")
                 {
+                    Debug.Log("Picked up pump");
                     WeaponData data = hit.collider.GetComponent<WeaponData>();
                     Shotgun weapon = guns[4].GetComponent<Shotgun>();
                     weapon.magAmmo = data.magAmmo;
@@ -172,28 +174,27 @@ public class Player : MonoBehaviour
 
         }
 
-            
 
-                
 
-        
 
-    
-    
-            
+
+
+
+
+
+           
             //Debug.DrawLine(ray.origin, hit.point, Color.red);
             Debug.DrawRay(ray.origin,ray.direction * 100,Color.red);
             controller.LookAt(hit.point);
-            //shootPos.LookAt(hit.point);
-            Vector3 targetPostition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            shootPos.transform.LookAt(targetPostition);
+            shootPos.LookAt(hit.point);
+            
+
 
         //fwd.LookAt(hit.point);
     }
-        
 
-    
 
+   
     private void OnMove(Vector3 move)
     {
         if(move.magnitude > 1)
