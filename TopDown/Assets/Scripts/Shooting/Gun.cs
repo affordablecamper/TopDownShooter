@@ -60,7 +60,7 @@ public class Gun : MonoBehaviour
     public Transform bulletCasingSpawn; //The location of the "bulletcasingspawn"
     public Transform fwd;             //The forward working direction that the "tracer" gameobject comes out from
     public Transform shootPos;
-
+    
     
    
     [Space]
@@ -86,9 +86,12 @@ public class Gun : MonoBehaviour
 
 
         // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         magAmmoText.text = magAmmo.ToString();
+
+
+       
 
 
         if (Input.GetButtonDown("Fire2"))
@@ -100,7 +103,7 @@ public class Gun : MonoBehaviour
             WeaponData gunPickUp = gunProjectile.GetComponent<WeaponData>();
             gunPickUp.magAmmo = magAmmo;
             magAmmoText.enabled = false;
-            
+            //this.enabled = false;
         }
 
 

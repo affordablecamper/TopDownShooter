@@ -94,7 +94,7 @@ public class Shotgun : MonoBehaviour
 
 
         // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         magAmmoText.text = magAmmo.ToString();
 
@@ -108,7 +108,7 @@ public class Shotgun : MonoBehaviour
             WeaponData gunPickUp = gunProjectile.GetComponent<WeaponData>();
             gunPickUp.magAmmo = magAmmo;
             magAmmoText.enabled = false;
-            
+            //this.enabled = false;
         }
 
 

@@ -98,6 +98,7 @@ public class Player : MonoBehaviour
                     mp5sd.enabled = false;
                     mp40.enabled = false;
                     pump.enabled = false;
+                    
                 }
 
                     
@@ -115,6 +116,7 @@ public class Player : MonoBehaviour
                     mp5sd.enabled = false;
                     mp40.enabled = false;
                     pump.enabled = false;
+                    
                 }
 
                     
@@ -132,6 +134,7 @@ public class Player : MonoBehaviour
                     ak47.enabled = false;
                     mp40.enabled = false;
                     pump.enabled = false;
+                   
                 }
 
 
@@ -148,6 +151,7 @@ public class Player : MonoBehaviour
                     ak47.enabled = false;
                     mp5.enabled = false;
                     pump.enabled = false;
+                    
                 }
 
 
@@ -166,6 +170,7 @@ public class Player : MonoBehaviour
                     ak47.enabled = false;
                     mp40.enabled = false;
                     mp5.enabled = false;
+                    
                 }
 
             }

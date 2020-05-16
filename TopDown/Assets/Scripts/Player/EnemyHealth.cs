@@ -36,6 +36,9 @@ public class EnemyHealth : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         aiScript = GetComponent<NewEnemyAI>();
+        
+
+        
     }
     public void takeDamage(float __amount)
     {
