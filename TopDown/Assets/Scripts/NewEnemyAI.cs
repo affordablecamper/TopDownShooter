@@ -174,6 +174,7 @@ public class NewEnemyAI : MonoBehaviour
 
                     canSee = false;
                     canShoot = false;
+
                     if (!canSee && !isRoaming)
                     {
                         inspectTimer -= Time.deltaTime;
@@ -267,11 +268,11 @@ public class NewEnemyAI : MonoBehaviour
             if (target != null && !droppedWeapon)
             {
                 direction = (target.transform.position - transform.position).normalized;
-                StartCoroutine("FindTargetsWithDelay", 0f);
+                
                 _distance = Vector3.Distance(target.transform.position, transform.position);
                 if (_distance <= viewRadius)
                 {
-
+                    StartCoroutine("FindTargetsWithDelay", 0f);
 
 
                 }
@@ -375,8 +376,6 @@ public class NewEnemyAI : MonoBehaviour
     {
         if (!_health.isDead)
         {
-            if (friendly)
-                return;
 
             if (facingTarget && !playerisDead)
             {
