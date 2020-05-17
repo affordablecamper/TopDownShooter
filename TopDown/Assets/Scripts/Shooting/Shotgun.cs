@@ -43,7 +43,7 @@ public class Shotgun : MonoBehaviour
     private float fireCountdown = 0f;
     private float muzzleFlashTimerStart;
     public float muzzleflashtime = 0.1f;
-    public float damage = 1;
+    public int damage = 1;
     public int pellets;
     public float maxRnd = 10;               //Recoil stuff.
     public float minRnd = 3;            //Recoil stuff.
@@ -94,11 +94,9 @@ public class Shotgun : MonoBehaviour
 
 
         // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         magAmmoText.text = magAmmo.ToString();
-
-        shotRnd = Mathf.MoveTowards(shotRnd, minRnd, recoilRecoveryRate * Time.deltaTime);
         if (Input.GetButtonDown("Fire2"))
         {
 
@@ -110,6 +108,8 @@ public class Shotgun : MonoBehaviour
             magAmmoText.enabled = false;
             //this.enabled = false;
         }
+        shotRnd = Mathf.MoveTowards(shotRnd, minRnd, recoilRecoveryRate * Time.deltaTime);
+        
 
 
             if (Input.GetButtonDown("Fire1") && magEmpty == true)
@@ -152,9 +152,7 @@ public class Shotgun : MonoBehaviour
             
         }
 
-        if (fireCountdown <= 0f)
-        {
-
+        
 
             if (canShoot == true)
             {
@@ -164,9 +162,9 @@ public class Shotgun : MonoBehaviour
                 
             }
 
-        }
+        
 
-        fireCountdown -= Time.deltaTime;
+        
 
         Debug.DrawRay(shootPos.transform.position, direction * weaponRange, Color.black);
 
@@ -177,15 +175,20 @@ public class Shotgun : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") && magEmpty == false)
         {
+            canShoot = false;
             Instantiate(bulletCasing, bulletCasingSpawn.position, bulletCasingSpawn.transform.rotation);
             source.PlayOneShot(gunshotClip);
             magAmmo -= 1;
-            fireCountdown = fireRate;
             GameObject newProjectile = Instantiate(tracer, shootPos.transform.position, shootPos.transform.rotation) as GameObject;
             newProjectile.GetComponent<Rigidbody>().AddForce(shootPos.transform.forward * tracerPower);
+            StartCoroutine(FireCountDown(fireRate));
         }
-        
-        
+
+        IEnumerator FireCountDown(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+            canShoot = true;
+        }
 
         for (int i = 0; i < pellets; i++)
         {
@@ -213,8 +216,8 @@ public class Shotgun : MonoBehaviour
                     if (hitInfo.collider.tag == "EnemyBody")
                     {
 
-                        DamageInfo enem = hitInfo.collider.GetComponent<DamageInfo>();
-                        enem.takeDamage(damage, transform.forward);
+                        Limbs enem = hitInfo.collider.GetComponent<Limbs>();
+                        enem.SendDamage(damage);
                         Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
                         source.PlayOneShot(fleshHit);
                     }

@@ -192,8 +192,8 @@ public class Gun : MonoBehaviour
                 
                     if (hitInfo.collider.tag == "EnemyBody") {
 
-                    DamageInfo enem = hitInfo.collider.GetComponent<DamageInfo>();
-                    enem.takeDamage(damage, shootPos.transform.forward);
+                    Limbs enem = hitInfo.collider.GetComponent<Limbs>();
+                    enem.SendDamage(damage);
                     Instantiate(bloodImpact, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
                     source.PlayOneShot(fleshHit);
                     }

@@ -71,6 +71,7 @@ public class NewEnemyAI : MonoBehaviour
     public bool friendly;
     public GameObject tracer;
     public float tracerPower;
+    public EnemyHealth _health;
     void Start()
     {
         waitTimeStart = waitTime;
@@ -86,7 +87,7 @@ public class NewEnemyAI : MonoBehaviour
 
     public void SetAlertPos(Vector3 playerLocation) {
 
-        if (!audioStatic) {
+        if (!audioStatic &&!_health.isDead) {
             agent.isStopped = false;
             isRoaming = false;
             isChasing = false;
@@ -114,136 +115,153 @@ public class NewEnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
-        
-
-
-        if (droppedWeapon) {
-            isRoaming = false;
-            isChasing = false;
-            canShoot = false;
-            canSee = false;
-            LookForWeapon();
-
-        }
-        if (!droppedWeapon)
+        if (target != null)
         {
 
-            if (isRoaming)
+            if (canShoot && droppedWeapon == false)
             {
-                isChasing = false;
-                anim.SetBool("isChasing", false);
 
+                Vector3 dir = target.position - transform.position;
+                Quaternion lookRotatation = Quaternion.LookRotation(dir);
+                Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotatation, Time.deltaTime * botAimSpeed).eulerAngles;
+                transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
+                RaycastHit _hitInfo;
 
-            }
-            if (canShoot)
-            {
-                agent.isStopped = true;
-                anim.SetBool("isRoaming", false);
-                anim.SetBool("isChasing", false);
-            }
-
-
-            if (isChasing)
-            {
-                isRoaming = false;
-                anim.SetBool("isChasing", true);
-            }
-
-
-
-            if (visibleTargets.Count <= 0)
-            {
-                
-                canSee = false;
-                canShoot = false;
-                if (!canSee && !isRoaming)
+                if (Physics.Raycast(transform.position, transform.forward, out _hitInfo, 1000000))
                 {
-                    inspectTimer -= Time.deltaTime;
-                    if (inspectTimer <= 0)
+                    if (_hitInfo.collider.tag == enemyTag)
                     {
+                        facingTarget = true;
 
-                        isRoaming = true;
                     }
                     else
-                    {
-                        isChasing = true;
-                        agent.isStopped = false;
-                        agent.SetDestination(target.position);
-
-                    }
+                        facingTarget = false;
 
                 }
+
             }
-            
 
 
 
-            //checks if player is alive
-            if (playerisDead)
+
+            if (!_health.isDead)
             {
-                agent.isStopped = true;
-                anim.SetBool("isRoaming", false);
-                anim.SetBool("isChasing", false);
-                target = null;
-                this.enabled = false;
+                if (isRoaming)
+                {
+                    isChasing = false;
+                    anim.SetBool("isChasing", false);
+
+
+                }
+                if (canShoot)
+                {
+                    agent.isStopped = true;
+                    anim.SetBool("isRoaming", false);
+                    anim.SetBool("isChasing", false);
+                }
+
+
+                if (isChasing)
+                {
+                    isRoaming = false;
+                    anim.SetBool("isChasing", true);
+                }
+
+
+
+                if (visibleTargets.Count <= 0)
+                {
+
+                    canSee = false;
+                    canShoot = false;
+                    if (!canSee && !isRoaming)
+                    {
+                        inspectTimer -= Time.deltaTime;
+                        if (inspectTimer <= 0)
+                        {
+
+                            isRoaming = true;
+                        }
+                        else
+                        {
+                            isChasing = true;
+                            agent.isStopped = false;
+                            agent.SetDestination(target.position);
+
+                        }
+
+                    }
+                }
+
+
+
+
+                //checks if player is alive
+                if (playerisDead)
+                {
+                    agent.isStopped = true;
+                    anim.SetBool("isRoaming", false);
+                    anim.SetBool("isChasing", false);
+                    target = null;
+                    this.enabled = false;
+                }
+
+
+                //shooting
+                if (muzzleFlashEnable == true)
+                {
+
+                    muzzleFlash.SetActive(true);
+                    muzzleflashtime -= Time.deltaTime;
+
+
+                }
+
+
+                if (muzzleflashtime <= 0)
+                {
+                    muzzleFlash.SetActive(false);
+                    muzzleFlashEnable = false;
+                    muzzleflashtime = muzzleFlashTimerStart;
+
+
+
+                }
+
+
+
+                if (fireCountdown <= 0f)
+                {
+
+                    if (canShoot && !droppedWeapon)
+                        StartCoroutine("ReactionTime", reactionTime);
+
+
+
+
+                    fireCountdown = 1f / fireRate;
+
+
+                }
+
+
+                fireCountdown -= Time.deltaTime;
+
+
+
+
+
+
+                if (isRoaming && !droppedWeapon)
+                {
+
+
+                    GotoNextPoint();
+                }
+
+
+
             }
-
-
-            //shooting
-            if (muzzleFlashEnable == true)
-            {
-
-                muzzleFlash.SetActive(true);
-                muzzleflashtime -= Time.deltaTime;
-
-
-            }
-
-
-            if (muzzleflashtime <= 0)
-            {
-                muzzleFlash.SetActive(false);
-                muzzleFlashEnable = false;
-                muzzleflashtime = muzzleFlashTimerStart;
-
-
-
-            }
-
-
-
-            if (fireCountdown <= 0f)
-            {
-
-                if (canShoot && !droppedWeapon)
-                    StartCoroutine("ReactionTime", reactionTime);
-
-
-
-
-                fireCountdown = 1f / fireRate;
-
-
-            }
-
-
-            fireCountdown -= Time.deltaTime;
-
-
-
-
-
-
-            if (isRoaming && !droppedWeapon)
-            {
-
-
-                GotoNextPoint();
-            }
-
 
 
             if (target != null && !droppedWeapon)
@@ -259,7 +277,7 @@ public class NewEnemyAI : MonoBehaviour
                 }
                 else
                 {
-                    
+
                     canShoot = false;
                     canSee = false;
                 }
@@ -269,7 +287,17 @@ public class NewEnemyAI : MonoBehaviour
 
 
 
+
+
         }
+
+
+
+
+
+
+
+
 
 
     }
@@ -282,67 +310,8 @@ public class NewEnemyAI : MonoBehaviour
     }
 
 
-    void LookForWeapon()
-    {
 
-        weapons = GameObject.FindGameObjectsWithTag(weaponTag);
-        float shortestDistance = Mathf.Infinity;
-        GameObject nearestEnemy = null;
-        foreach (GameObject gun in weapons)
-        {
-            float distanceToEnemy = Vector3.Distance(transform.position, gun.transform.position);
-            if (distanceToEnemy < shortestDistance)
-            {
-
-                shortestDistance = distanceToEnemy;
-                nearestEnemy = gun;
-
-            }
-        }
-
-        if (nearestEnemy != null && shortestDistance <= viewRadius)
-        {
-
-            weaponTarget = nearestEnemy.transform;
-            
-        }
-
-
-        if (shortestDistance >= viewRadius)
-        {
-
-            weaponTarget = null;
-
-        }
-
-        GoToWeaponTarget();
-    }
-
-    private void GoToWeaponTarget()
-    {
-        if (weaponTarget != null) {
-            agent.isStopped = false;
-            agent.SetDestination(weaponTarget.position);
-            anim.SetBool("isRoaming", true);
-            float distanceToGun = Vector3.Distance(transform.position, weaponTarget.transform.position);
-            if (agent.remainingDistance <= 0 &&distanceToGun <= 1.5f)
-            {
-               
-                Destroy(weaponTarget.gameObject);
-                weapon.SetActive(true);
-                droppedWeapon = false;
-                isRoaming = true;
-            }
-            else {
-                weapon.SetActive(false);
-                droppedWeapon = true;
-                isRoaming = false;
-
-            }
-
-        }
-        
-    }
+   
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
@@ -355,119 +324,103 @@ public class NewEnemyAI : MonoBehaviour
 
     void FindVisibleTargets()
     {
-        visibleTargets.Clear();
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
-        RaycastHit hitInfo;
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        if (!_health.isDead)
         {
-            //Transform target = targetsInViewRadius[i].transform;
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            visibleTargets.Clear();
+            Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+            RaycastHit hitInfo;
+            for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
-                float dstToTarget = Vector3.Distance(transform.position, target.position);
-
-
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+                //Transform target = targetsInViewRadius[i].transform;
+                Vector3 dirToTarget = (target.position - transform.position).normalized;
+                if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
                 {
-                    shootPos.LookAt(target);
-                    if (Physics.Raycast(shootPos.transform.position, shootPos.transform.forward, out hitInfo))
-                    {
+                    float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                        if (hitInfo.collider.tag == "Player" &&!droppedWeapon)
+
+                    if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+                    {
+                        shootPos.LookAt(target);
+                        if (Physics.Raycast(shootPos.transform.position, shootPos.transform.forward, out hitInfo))
                         {
 
-                            visibleTargets.Add(hitInfo.transform);
-                            isRoaming = false;
-                            canSee = true;
-                            canShoot = true;
-                            agent.isStopped = true;
-                            anim.SetBool("isRoaming", false);
-                            inspectTimer = inspectTimerStart;
+                            if (hitInfo.collider.tag == "Player" && !droppedWeapon)
+                            {
+
+                                visibleTargets.Add(hitInfo.transform);
+                                isRoaming = false;
+                                canSee = true;
+                                canShoot = true;
+                                agent.isStopped = true;
+                                anim.SetBool("isRoaming", false);
+                                inspectTimer = inspectTimerStart;
+
+                            }
+
 
                         }
 
-
                     }
-
-            }   }  
+                }
+            }
         }
+        
     }
 
     
 
-    private void FixedUpdate()
-    {
-        if (canShoot && droppedWeapon == false)
-        {
 
-            Vector3 dir = target.position - transform.position;
-            Quaternion lookRotatation = Quaternion.LookRotation(dir);
-            Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotatation, Time.deltaTime * botAimSpeed).eulerAngles;
-            transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
-            RaycastHit _hitInfo;
-
-            if (Physics.Raycast(transform.position, transform.forward, out _hitInfo, 1000000))
-                {
-                if (_hitInfo.collider.tag == enemyTag)
-                {
-                    facingTarget = true;
-
-                }
-                else
-                    facingTarget = false;
-
-            }
-
-        }
-        
-        
-    }
 
     private void OnShoot()
     {
-        if (friendly)
-            return;
+        if (!_health.isDead)
+        {
+            if (friendly)
+                return;
 
-        if (facingTarget &&!playerisDead) {
-            //-shootPos.LookAt(closestTarget);
-
-
-            agent.isStopped = true;
-            anim.SetBool("isRoaming", false);
-            anim.SetBool("isChasing", false);
-            GameObject newProjectile = Instantiate(tracer, transform.position, transform.rotation) as GameObject;
-            newProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * tracerPower);
-            RaycastHit hitInfo;
-            muzzleFlashEnable = true;
-            Audio.PlayOneShot(fire);
-
-
-            if (Physics.Raycast(transform.position, transform.forward, out hitInfo, 1000000))
+            if (facingTarget && !playerisDead)
             {
-                if (hitInfo.collider.tag == enemyTag)
+                //-shootPos.LookAt(closestTarget);
+
+
+                agent.isStopped = true;
+                anim.SetBool("isRoaming", false);
+                anim.SetBool("isChasing", false);
+                GameObject newProjectile = Instantiate(tracer, transform.position, transform.rotation) as GameObject;
+                newProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * tracerPower);
+                RaycastHit hitInfo;
+                muzzleFlashEnable = true;
+                Audio.PlayOneShot(fire);
+
+
+                if (Physics.Raycast(transform.position, transform.forward, out hitInfo, 1000000))
                 {
+                    if (hitInfo.collider.tag == enemyTag)
+                    {
 
 
 
 
 
-                    PlayerHealth _Player = hitInfo.collider.GetComponent<PlayerHealth>();
-                    _Player.takeDamage(damage, transform.forward);
+                        PlayerHealth _Player = hitInfo.collider.GetComponent<PlayerHealth>();
+                        _Player.takeDamage(damage, transform.forward);
 
 
-                    if (_Player.health <= 0)
-                        playerisDead = true;
+                        if (_Player.health <= 0)
+                            playerisDead = true;
+
+
+                    }
 
 
                 }
 
-
             }
 
+
+
         }
-        
-        
-        
+
 
     }
 

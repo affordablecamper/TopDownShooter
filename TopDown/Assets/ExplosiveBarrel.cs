@@ -29,8 +29,8 @@ public class ExplosiveBarrel : MonoBehaviour
             if (nearbyObject != null && nearbyObject.gameObject.tag == "EnemyBody")
             {
 
-                DamageInfo enem = nearbyObject.GetComponent<DamageInfo>();
-                enem.takeDamage(1, transform.forward);
+                Limbs enem = nearbyObject.GetComponent<Limbs>();
+                enem.SendDamage(1);
             }
 
                 if (nearbyObject != null && nearbyObject.gameObject.tag == "Player")
